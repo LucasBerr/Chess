@@ -1,0 +1,54 @@
+html, body {
+    margin: 0;
+}
+
+#screen {
+    background-color: gray;
+    width: 1200px;
+    height: 1200px;
+
+
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-top: -600px;
+    margin-left: -600px;
+    
+    border: 10px;
+    padding: 8px;
+}
+
+#board {
+    background-color: coral;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+}
+
+
+.square-green {
+    display: grid;
+    place-items: center; /* Centraliza o conteúdo no meio do grid */
+    width: 150px;
+    height: 150px;
+    background-color: green;
+    text-align: center;
+}
+
+.square-white {
+    display: grid;
+    place-items: center; /* Centraliza o conteúdo no meio do grid */
+    width: 150px;
+    height: 150px;
+    background-color: rgb(155, 155, 61);
+}
+
+.square-green:hover {
+    background-color: brown;
+}
+
+.square-white:hover {
+    background-color: brown;
+}
