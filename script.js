@@ -7,6 +7,7 @@ let boardPieces = {};
 let pieces = {};
 let isDragging = false;
 let offsetX, offsetY;
+let onMove = "w";
 
 
 
@@ -28,8 +29,15 @@ function click(pieceId) {
     isPieceOnClick = isPieceThere(pieceId);
     if (isPieceOnClick) {
         let pieceClicked = whichPieceIs(pieceId);
-        movePiece(pieceClicked);
+        // Checa de quem é a vez de jogar
+        if (onMove === pieceClicked[0]) {
+            //clear_move_indicators()
+            movePiece(pieceClicked);
+        } else {
+            console.log("Não é a fez das", pieceClicked[0], "jogarem");
+        }
     }
+    
 }
 
 function movePiece(pieceClicked) {
@@ -56,9 +64,13 @@ function movePiece(pieceClicked) {
     }
     
 function movePawn(pieceClicked) {
+    console.log(pieceClicked)
     console.log("Pawn")
     pawn_location = findPiece(pieceClicked)
     console.log(pawn_location)
+
+    console.log(pieces[pieceClicked].walked)
+    //create_move_indicators(pawn_location[0], parseInt(pawn_location[1]) + 1,  )
     // Agora preciso adicionar as bolinhas pretas clicáveis às casas correspondentes
     // Se ele clicar novamente em qualquer outra casa que não tenha uma peça branca
     // vá para lá
@@ -196,42 +208,49 @@ function createPieces() {
     const wp1 = document.createElement("img");
     wp1.src = wpImageSource;
     wp1.id = "wp1";
-    wp1.onclick = function(){alert("Cliquei no wp1")}
+    wp1.walked = false
     pieces.wp1 = wp1;
 
     const wp2 = document.createElement("img");
     wp2.src = wpImageSource;
     wp2.id = "wp2";
+    wp2.walked = false
     pieces.wp2 = wp2;
 
     const wp3 = document.createElement("img");
     wp3.src = wpImageSource;
     wp3.id = "wp3";
+    wp3.walked = false
     pieces.wp3 = wp3;
 
     const wp4 = document.createElement("img");
     wp4.src = wpImageSource;
     wp4.id = "wp4";
+    wp4.walked = false
     pieces.wp4 = wp4;
 
     const wp5 = document.createElement("img");
     wp5.src = wpImageSource;
     wp5.id = "wp5";
+    wp5.walked = false
     pieces.wp5 = wp5;
 
     const wp6 = document.createElement("img");
     wp6.src = wpImageSource;
     wp6.id = "wp6";
+    wp6.walked = false
     pieces.wp6 = wp6;
 
     const wp7 = document.createElement("img");
     wp7.src = wpImageSource;
     wp7.id = "wp7";
+    wp7.walked = false
     pieces.wp7 = wp7;
 
     const wp8 = document.createElement("img");
     wp8.src = wpImageSource;
     wp8.id = "wp8";
+    wp8.walked = false
     pieces.wp8 = wp8;
 
 
@@ -285,41 +304,49 @@ function createPieces() {
     const bp1 = document.createElement("img");
     bp1.src = bpImageSource;
     bp1.id = "bp1";
+    bp1.walked = false
     pieces.bp1 = bp1;
 
     const bp2 = document.createElement("img");
     bp2.src = bpImageSource;
     bp2.id = "bp2";
+    bp2.walked = false
     pieces.bp2 = bp2;
 
     const bp3 = document.createElement("img");
     bp3.src = bpImageSource;
     bp3.id = "bp3";
+    bp2.walked = false
     pieces.bp3 = bp3;
 
     const bp4 = document.createElement("img");
     bp4.src = bpImageSource;
     bp4.id = "bp4";
+    bp4.walked = false
     pieces.bp4 = bp4;
 
     const bp5 = document.createElement("img");
     bp5.src = bpImageSource;
     bp5.id = "bp5";
+    bp5.walked = false
     pieces.bp5 = bp5;
 
     const bp6 = document.createElement("img");
     bp6.src = bpImageSource;
     bp6.id = "bp6";
+    bp6.walked = false
     pieces.bp6 = bp6;
 
     const bp7 = document.createElement("img");
     bp7.src = bpImageSource;
     bp7.id = "bp7";
+    bp7.walked = false
     pieces.bp7 = bp7;
 
     const bp8 = document.createElement("img");
     bp8.src = bpImageSource;
     bp8.id = "bp8";
+    bp8.walked = false
     pieces.bp8 = bp8;
 
 
