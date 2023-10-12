@@ -31,11 +31,11 @@ function click(pieceId) {
     if (isPieceOnClick) {
         let pieceClicked = whichPieceIs(pieceId);
         // Checa de quem é a vez de jogar
+        console.log(pieceClicked)
+        console.log(onMove)
         if (onMove === pieceClicked[0]) {
             clearMoveIndicators()
             movePiece(pieceClicked);
-        } else {
-            console.log("Não é a fez das", pieceClicked[0], "jogarem");
         }
     }
     
@@ -65,20 +65,21 @@ function movePiece(pieceClicked) {
     }
     
 function movePawn(pieceClicked) {
-    pawn_location = findPiece(pieceClicked)
+    pawnLocation = findPiece(pieceClicked)
     let movements = []
+    console.log(pieceClicked)
+    movementFactor = pieceClicked[0] === "w" ? 1 : -1;
 
-    movements.push((pawn_location[0] + (parseInt(pawn_location[1]) + 1)).toString())
+    movements.push(pawnLocation[0] + (parseInt(pawnLocation[1]) + (movementFactor)).toString())
     // Se for a primeira jogada do peão ele deve poder andar 2 casas
     if (!pieces[pieceClicked].walked) {
-        movements.push((pawn_location[0] + (parseInt(pawn_location[1]) + 2)).toString())
+        movements.push((pawnLocation[0] + (parseInt(pawnLocation[1]) + (movementFactor * 2))).toString())
     }
     createMoveIndicators(pieceClicked, movements)
     //create_move_indicators(pawn_location[0], parseInt(pawn_location[1]) + 1,  )
     // Agora preciso adicionar as bolinhas pretas clicáveis às casas correspondentes
     // Se ele clicar novamente em qualquer outra casa que não tenha uma peça branca
     // vá para lá
-    boardPieces.A2.appendChild(pieces.wp1);
 }
 
 function moveRook(pieceClicked) {
@@ -98,16 +99,16 @@ function moveKing(pieceClicked) {
 }
 
 function createMoveIndicators(movingPiece, movements){
-    // apenas para teste:
-    boardPieces.A3.appendChild(pieces.bp8);
-
-    
     for (let house of movements) {
         // Criando indicador de movimento
         const moveIndicator = document.createElement("img")
         moveIndicator.src = ".\\sprites\\moveIndicator.png"
         moveIndicator.style.opacity = 0.7;
         moveIndicator.id = "moveIndicator"
+        moveIndicator.addEventListener("click", function () {
+            // Função para mover o peão para a casa correspondente
+            movePawnTo(house, movingPiece, movements);
+        });
         
         // checa se tem uma peça na casa do movimento
         if (isPieceThere(house)){
@@ -118,6 +119,31 @@ function createMoveIndicators(movingPiece, movements){
         
     }
 }
+
+function movePawnTo(destination, pieceClicked, movements) {
+    // Encontre a posição atual do peão
+    const currentPosition = findPiece(pieceClicked);
+
+    // Verifique se o movimento é válido (se a casa de destino está na lista de movimentos possíveis)
+    if (movements.includes(destination)) {
+        // Remove o indicador de movimento das casas
+        const moveIndicator = boardPieces[destination].querySelector("#moveIndicator");
+        if (moveIndicator) {
+            clearMoveIndicators()
+        }
+
+        // Move o peão para a casa de destino
+        boardPieces[destination].appendChild(pieces[pieceClicked]);
+
+        // Atualize a posição do peão e defina a bandeira "walked" como verdadeira (indicando que o peão se moveu)
+        pieces[pieceClicked].walked = true;
+        pieceClicked = destination;
+
+        // Atualize a vez de jogar (alternando entre "w" e "b")
+        onMove = onMove === "w" ? "b" : "w";
+    }
+}
+
 
 // Essa função deve limpar todos os moveIndicator do mapa
 function clearMoveIndicators() {
