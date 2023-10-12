@@ -11,6 +11,7 @@ let onMove = "w";
 
 
 
+
 createBoard()
 console.log(boardPieces);
 console.log(pieces)
@@ -31,7 +32,7 @@ function click(pieceId) {
         let pieceClicked = whichPieceIs(pieceId);
         // Checa de quem é a vez de jogar
         if (onMove === pieceClicked[0]) {
-            //clear_move_indicators()
+            clearMoveIndicators()
             movePiece(pieceClicked);
         } else {
             console.log("Não é a fez das", pieceClicked[0], "jogarem");
@@ -64,19 +65,20 @@ function movePiece(pieceClicked) {
     }
     
 function movePawn(pieceClicked) {
-    console.log(pieceClicked)
-    console.log("Pawn")
     pawn_location = findPiece(pieceClicked)
-    console.log(pawn_location)
+    let movements = []
 
-    console.log(pieces[pieceClicked].walked)
+    movements.push((pawn_location[0] + (parseInt(pawn_location[1]) + 1)).toString())
+    // Se for a primeira jogada do peão ele deve poder andar 2 casas
+    if (!pieces[pieceClicked].walked) {
+        movements.push((pawn_location[0] + (parseInt(pawn_location[1]) + 2)).toString())
+    }
+    createMoveIndicators(pieceClicked, movements)
     //create_move_indicators(pawn_location[0], parseInt(pawn_location[1]) + 1,  )
     // Agora preciso adicionar as bolinhas pretas clicáveis às casas correspondentes
     // Se ele clicar novamente em qualquer outra casa que não tenha uma peça branca
     // vá para lá
     boardPieces.A2.appendChild(pieces.wp1);
-
-
 }
 
 function moveRook(pieceClicked) {
@@ -94,6 +96,44 @@ function moveQueen(pieceClicked) {
 function moveKing(pieceClicked) {
     console.log("King")
 }
+
+function createMoveIndicators(movingPiece, movements){
+    // apenas para teste:
+    boardPieces.A3.appendChild(pieces.bp8);
+
+    
+    for (let house of movements) {
+        // Criando indicador de movimento
+        const moveIndicator = document.createElement("img")
+        moveIndicator.src = ".\\sprites\\moveIndicator.png"
+        moveIndicator.style.opacity = 0.7;
+        moveIndicator.id = "moveIndicator"
+        
+        // checa se tem uma peça na casa do movimento
+        if (isPieceThere(house)){
+            // Peões não podem andar caso tenham uma peça na frente
+            break;
+        } 
+        boardPieces[house].appendChild(moveIndicator)
+        
+    }
+}
+
+// Essa função deve limpar todos os moveIndicator do mapa
+function clearMoveIndicators() {
+    // Itera por todas as casas do tabuleiro
+    for (const house in boardPieces) {
+        const currentHouse = boardPieces[house];
+
+        // Verifica se há um indicador de movimento na casa
+        const moveIndicator = currentHouse.querySelector("#moveIndicator");
+        if (moveIndicator) {
+            // Remove o indicador de movimento da casa
+            currentHouse.removeChild(moveIndicator);
+        }
+    }
+}
+
 
 // Retorna o lugar que a peça está atualmente
 function findPiece(pieceName) {
@@ -190,18 +230,18 @@ function getBoardPieces() {
 
 function createPieces() {
     const wpImageSource = ".\\sprites\\wp.png";
-    const wnImageSource = "sprites\\wn.png";
-    const wrImageSource = "sprites\\wr.png";
-    const wbImageSource = "sprites\\wb.png";
-    const wqImageSource = "sprites\\wq.png";
-    const wkImageSource = "sprites\\wk.png";
+    const wnImageSource = ".\\sprites\\wn.png";
+    const wrImageSource = ".\\sprites\\wr.png";
+    const wbImageSource = ".\\sprites\\wb.png";
+    const wqImageSource = ".\\sprites\\wq.png";
+    const wkImageSource = ".\\sprites\\wk.png";
     
-    const bpImageSource = "sprites\\bp.png";
-    const bnImageSource = "sprites\\bn.png";
-    const brImageSource = "sprites\\br.png";
-    const bbImageSource = "sprites\\bb.png";
-    const bqImageSource = "sprites\\bq.png";
-    const bkImageSource = "sprites\\bk.png";
+    const bpImageSource = ".\\sprites\\bp.png";
+    const bnImageSource = ".\\sprites\\bn.png";
+    const brImageSource = ".\\sprites\\br.png";
+    const bbImageSource = ".\\sprites\\bb.png";
+    const bqImageSource = ".\\sprites\\bq.png";
+    const bkImageSource = ".\\sprites\\bk.png";
 
     // WHITE
     // Pawn
