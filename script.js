@@ -7,13 +7,9 @@ let boardPieces = {};
 let pieces = {};
 let isDragging = false;
 let offsetX, offsetY;
-
-
+let onMove = "w";
 
 createBoard()
-console.log(boardPieces);
-console.log(pieces)
-
 
 
 function createBoard() {
@@ -28,8 +24,13 @@ function click(pieceId) {
     isPieceOnClick = isPieceThere(pieceId);
     if (isPieceOnClick) {
         let pieceClicked = whichPieceIs(pieceId);
-        movePiece(pieceClicked);
+        // Checa de quem é a vez de jogar
+        if (onMove === pieceClicked[0]) {
+            clearMoveIndicators()
+            movePiece(pieceClicked);
+        }
     }
+    
 }
 
 function movePiece(pieceClicked) {
@@ -56,15 +57,16 @@ function movePiece(pieceClicked) {
     }
     
 function movePawn(pieceClicked) {
-    console.log("Pawn")
-    pawn_location = findPiece(pieceClicked)
-    console.log(pawn_location)
-    // Agora preciso adicionar as bolinhas pretas clicáveis às casas correspondentes
-    // Se ele clicar novamente em qualquer outra casa que não tenha uma peça branca
-    // vá para lá
-    boardPieces.A2.appendChild(pieces.wp1);
+    pawnLocation = findPiece(pieceClicked)
+    let movements = []
+    movementFactor = pieceClicked[0] === "w" ? 1 : -1;
 
-
+    movements.push(pawnLocation[0] + (parseInt(pawnLocation[1]) + (movementFactor)).toString())
+    // Se for a primeira jogada do peão ele deve poder andar 2 casas
+    if (!pieces[pieceClicked].walked) {
+        movements.push((pawnLocation[0] + (parseInt(pawnLocation[1]) + (movementFactor * 2))).toString())
+    }
+    createMoveIndicatorsPawn(pieceClicked, movements)
 }
 
 function moveRook(pieceClicked) {
@@ -82,6 +84,69 @@ function moveQueen(pieceClicked) {
 function moveKing(pieceClicked) {
     console.log("King")
 }
+
+function createMoveIndicatorsPawn(movingPiece, movements){
+    for (let house of movements) {
+        // Criando indicador de movimento
+        const moveIndicator = document.createElement("img")
+        moveIndicator.src = ".\\sprites\\moveIndicator.png"
+        moveIndicator.style.opacity = 0.7;
+        moveIndicator.id = "moveIndicator"
+        moveIndicator.addEventListener("click", function () {
+            // Função para mover o peão para a casa correspondente
+            movePawnTo(house, movingPiece, movements);
+        });
+        
+        // checa se tem uma peça na casa do movimento
+        if (isPieceThere(house)){
+            // Peões não podem andar caso tenham uma peça na frente
+            break;
+        } 
+        boardPieces[house].appendChild(moveIndicator)
+        
+    }
+}
+
+function movePawnTo(destination, pieceClicked, movements) {
+    // Encontre a posição atual do peão
+    const currentPosition = findPiece(pieceClicked);
+
+    // Verifique se o movimento é válido (se a casa de destino está na lista de movimentos possíveis)
+    if (movements.includes(destination)) {
+        // Remove o indicador de movimento das casas
+        const moveIndicator = boardPieces[destination].querySelector("#moveIndicator");
+        if (moveIndicator) {
+            clearMoveIndicators()
+        }
+
+        // Move o peão para a casa de destino
+        boardPieces[destination].appendChild(pieces[pieceClicked]);
+
+        // Atualize a posição do peão e defina a bandeira "walked" como verdadeira (indicando que o peão se moveu)
+        pieces[pieceClicked].walked = true;
+        pieceClicked = destination;
+
+        // Atualize a vez de jogar (alternando entre "w" e "b")
+        onMove = onMove === "w" ? "b" : "w";
+    }
+}
+
+
+// Essa função deve limpar todos os moveIndicator do mapa
+function clearMoveIndicators() {
+    // Itera por todas as casas do tabuleiro
+    for (const house in boardPieces) {
+        const currentHouse = boardPieces[house];
+
+        // Verifica se há um indicador de movimento na casa
+        const moveIndicator = currentHouse.querySelector("#moveIndicator");
+        if (moveIndicator) {
+            // Remove o indicador de movimento da casa
+            currentHouse.removeChild(moveIndicator);
+        }
+    }
+}
+
 
 // Retorna o lugar que a peça está atualmente
 function findPiece(pieceName) {
@@ -178,60 +243,67 @@ function getBoardPieces() {
 
 function createPieces() {
     const wpImageSource = ".\\sprites\\wp.png";
-    const wnImageSource = "sprites\\wn.png";
-    const wrImageSource = "sprites\\wr.png";
-    const wbImageSource = "sprites\\wb.png";
-    const wqImageSource = "sprites\\wq.png";
-    const wkImageSource = "sprites\\wk.png";
+    const wnImageSource = ".\\sprites\\wn.png";
+    const wrImageSource = ".\\sprites\\wr.png";
+    const wbImageSource = ".\\sprites\\wb.png";
+    const wqImageSource = ".\\sprites\\wq.png";
+    const wkImageSource = ".\\sprites\\wk.png";
     
-    const bpImageSource = "sprites\\bp.png";
-    const bnImageSource = "sprites\\bn.png";
-    const brImageSource = "sprites\\br.png";
-    const bbImageSource = "sprites\\bb.png";
-    const bqImageSource = "sprites\\bq.png";
-    const bkImageSource = "sprites\\bk.png";
+    const bpImageSource = ".\\sprites\\bp.png";
+    const bnImageSource = ".\\sprites\\bn.png";
+    const brImageSource = ".\\sprites\\br.png";
+    const bbImageSource = ".\\sprites\\bb.png";
+    const bqImageSource = ".\\sprites\\bq.png";
+    const bkImageSource = ".\\sprites\\bk.png";
 
     // WHITE
     // Pawn
     const wp1 = document.createElement("img");
     wp1.src = wpImageSource;
     wp1.id = "wp1";
-    wp1.onclick = function(){alert("Cliquei no wp1")}
+    wp1.walked = false
     pieces.wp1 = wp1;
 
     const wp2 = document.createElement("img");
     wp2.src = wpImageSource;
     wp2.id = "wp2";
+    wp2.walked = false
     pieces.wp2 = wp2;
 
     const wp3 = document.createElement("img");
     wp3.src = wpImageSource;
     wp3.id = "wp3";
+    wp3.walked = false
     pieces.wp3 = wp3;
 
     const wp4 = document.createElement("img");
     wp4.src = wpImageSource;
     wp4.id = "wp4";
+    wp4.walked = false
     pieces.wp4 = wp4;
 
     const wp5 = document.createElement("img");
     wp5.src = wpImageSource;
     wp5.id = "wp5";
+    wp5.walked = false
     pieces.wp5 = wp5;
 
     const wp6 = document.createElement("img");
     wp6.src = wpImageSource;
     wp6.id = "wp6";
+    wp6.walked = false
     pieces.wp6 = wp6;
 
     const wp7 = document.createElement("img");
     wp7.src = wpImageSource;
     wp7.id = "wp7";
+    wp7.walked = false
     pieces.wp7 = wp7;
 
     const wp8 = document.createElement("img");
     wp8.src = wpImageSource;
     wp8.id = "wp8";
+    wp8.walked = false
     pieces.wp8 = wp8;
 
 
@@ -285,41 +357,49 @@ function createPieces() {
     const bp1 = document.createElement("img");
     bp1.src = bpImageSource;
     bp1.id = "bp1";
+    bp1.walked = false
     pieces.bp1 = bp1;
 
     const bp2 = document.createElement("img");
     bp2.src = bpImageSource;
     bp2.id = "bp2";
+    bp2.walked = false
     pieces.bp2 = bp2;
 
     const bp3 = document.createElement("img");
     bp3.src = bpImageSource;
     bp3.id = "bp3";
+    bp2.walked = false
     pieces.bp3 = bp3;
 
     const bp4 = document.createElement("img");
     bp4.src = bpImageSource;
     bp4.id = "bp4";
+    bp4.walked = false
     pieces.bp4 = bp4;
 
     const bp5 = document.createElement("img");
     bp5.src = bpImageSource;
     bp5.id = "bp5";
+    bp5.walked = false
     pieces.bp5 = bp5;
 
     const bp6 = document.createElement("img");
     bp6.src = bpImageSource;
     bp6.id = "bp6";
+    bp6.walked = false
     pieces.bp6 = bp6;
 
     const bp7 = document.createElement("img");
     bp7.src = bpImageSource;
     bp7.id = "bp7";
+    bp7.walked = false
     pieces.bp7 = bp7;
 
     const bp8 = document.createElement("img");
     bp8.src = bpImageSource;
     bp8.id = "bp8";
+    bp8.walked = false
     pieces.bp8 = bp8;
 
 
