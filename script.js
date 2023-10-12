@@ -9,13 +9,7 @@ let isDragging = false;
 let offsetX, offsetY;
 let onMove = "w";
 
-
-
-
 createBoard()
-console.log(boardPieces);
-console.log(pieces)
-
 
 
 function createBoard() {
@@ -31,8 +25,6 @@ function click(pieceId) {
     if (isPieceOnClick) {
         let pieceClicked = whichPieceIs(pieceId);
         // Checa de quem é a vez de jogar
-        console.log(pieceClicked)
-        console.log(onMove)
         if (onMove === pieceClicked[0]) {
             clearMoveIndicators()
             movePiece(pieceClicked);
@@ -67,7 +59,6 @@ function movePiece(pieceClicked) {
 function movePawn(pieceClicked) {
     pawnLocation = findPiece(pieceClicked)
     let movements = []
-    console.log(pieceClicked)
     movementFactor = pieceClicked[0] === "w" ? 1 : -1;
 
     movements.push(pawnLocation[0] + (parseInt(pawnLocation[1]) + (movementFactor)).toString())
@@ -75,11 +66,7 @@ function movePawn(pieceClicked) {
     if (!pieces[pieceClicked].walked) {
         movements.push((pawnLocation[0] + (parseInt(pawnLocation[1]) + (movementFactor * 2))).toString())
     }
-    createMoveIndicators(pieceClicked, movements)
-    //create_move_indicators(pawn_location[0], parseInt(pawn_location[1]) + 1,  )
-    // Agora preciso adicionar as bolinhas pretas clicáveis às casas correspondentes
-    // Se ele clicar novamente em qualquer outra casa que não tenha uma peça branca
-    // vá para lá
+    createMoveIndicatorsPawn(pieceClicked, movements)
 }
 
 function moveRook(pieceClicked) {
@@ -98,7 +85,7 @@ function moveKing(pieceClicked) {
     console.log("King")
 }
 
-function createMoveIndicators(movingPiece, movements){
+function createMoveIndicatorsPawn(movingPiece, movements){
     for (let house of movements) {
         // Criando indicador de movimento
         const moveIndicator = document.createElement("img")
