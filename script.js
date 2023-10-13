@@ -70,7 +70,22 @@ function movePawn(pieceClicked) {
 }
 
 function moveRook(pieceClicked) {
-    console.log("Rook")
+    console.log("MOVENDO TORRE")
+    let rookLocation = findPiece(pieceClicked)
+    let movements = []
+
+    // A torre pode andar no máximo 7 casas para cada lado 
+    // Pra cima
+    for (let number = parseInt(rookLocation[1]) + 1; number <= 8; number++){
+        movements.push(rookLocation[0] + (number).toString())
+    }
+    // Pra baixo
+    for (let number = parseInt(rookLocation[1]) - 1; number >= 8; number--) {
+        movements.push(rookLocation[0] + number.toString());
+    }
+    console.log(movements)
+    createMoveIndicatorsRook(pieceClicked, movements)
+
 }
 function moveNight(pieceClicked) {
     console.log("Night")
@@ -107,6 +122,34 @@ function createMoveIndicatorsPawn(movingPiece, movements){
     }
 }
 
+function createMoveIndicatorsRook(movingPiece, movements) {
+    for (let house of movements) {
+        // Criando indicador de movimento
+        const moveIndicator = document.createElement("img")
+        moveIndicator.src = ".\\sprites\\moveIndicator.png"
+        moveIndicator.style.opacity = 0.7;
+        moveIndicator.id = "moveIndicator"
+        moveIndicator.addEventListener("click", function () {
+            // Função para mover o peão para a casa correspondente
+            moveRookTo(house, movingPiece, movements);
+        });
+        // checa se tem uma peça na casa do movimento
+        if (isPieceThere(house)){
+            // Checa se a peça é da mesma cor, se for não faça nada
+            let pieceInHouse = whichPieceIs(house);
+            if (pieceInHouse[0] === movingPiece[0]) {
+                break;
+            } else if (pieceInHouse[0] !== movingPiece[0]){
+                boardPieces[house].appendChild(moveIndicator);
+                break;
+            } else {
+                boardPieces[house].appendChild(moveIndicator);
+            }
+        } 
+    }
+}
+
+
 function movePawnTo(destination, pieceClicked, movements) {
     // Encontre a posição atual do peão
     const currentPosition = findPiece(pieceClicked);
@@ -130,6 +173,11 @@ function movePawnTo(destination, pieceClicked, movements) {
         onMove = onMove === "w" ? "b" : "w";
     }
 }
+
+function moveRookTo(house, movingPiece, movements) {
+
+}
+
 
 
 // Essa função deve limpar todos os moveIndicator do mapa
