@@ -1,6 +1,7 @@
 // Redefinindo escala de zoom
 document.body.style.zoom = 0.67;
 
+
 const screen = document.getElementById("screen");
 const board = document.getElementById("board");
 let boardPieces = {};
@@ -11,7 +12,6 @@ let onMove = "w";
 
 createBoard()
 
-
 function createBoard() {
     getBoardPieces()
     createPieces()
@@ -21,7 +21,7 @@ function createBoard() {
 
 // MOVEMENTS
 function click(pieceId) {
-    isPieceOnClick = isPieceThere(pieceId);
+    let isPieceOnClick = isPieceThere(pieceId);
     if (isPieceOnClick) {
         let pieceClicked = whichPieceIs(pieceId);
         // Checa de quem é a vez de jogar
@@ -57,9 +57,9 @@ function movePiece(pieceClicked) {
     }
     
 function movePawn(pieceClicked) {
-    pawnLocation = findPiece(pieceClicked)
+    let pawnLocation = findPiece(pieceClicked)
     let movements = []
-    movementFactor = pieceClicked[0] === "w" ? 1 : -1;
+    let movementFactor = pieceClicked[0] === "w" ? 1 : -1;
 
     movements.push(pawnLocation[0] + (parseInt(pawnLocation[1]) + (movementFactor)).toString())
     // Se for a primeira jogada do peão ele deve poder andar 2 casas
@@ -151,7 +151,7 @@ function clearMoveIndicators() {
 // Retorna o lugar que a peça está atualmente
 function findPiece(pieceName) {
     for (const place in boardPieces) {
-        piece_in_place = whichPieceIs(boardPieces[place].id)
+        let piece_in_place = whichPieceIs(boardPieces[place].id)
         if (piece_in_place === pieceName) {
             return place
         }

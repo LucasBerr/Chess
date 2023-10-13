@@ -1,35 +1,14 @@
-class Piece {
-    constructor(color, number) {
-        this.color = color;
-        this.number = number;
-    }
-
-    get number () {
-        return this.number;
-    }
-
-    set number (value) {
-        this.number = value;
-    }
-
-    get color () {
-        return this.color;
-    }
-
-    set color (value) {
-        if (value != "w" || value != "b") {
-            console.error("Invalid color of piece: ", value);
-        } else {
-            this.color = value;
-        }
-    }
-}
+import { Piece } from "./Piece.js";
 
 class Pawn extends Piece {
     constructor(color, number) {
         super(color, number);
+        this.pawn = document.createElement("img");
         this.id = this.color + "p" + this.number;
-        this.asset = ".\\sprites\\"+ this.color + "p.png"
+        this.pawn.src = ".\\sprites\\"+ this.color + "p.png";
+        this.pawn.id = this.color + "p" + this.number;
+        this.pawn.walked = false;
+        this.pawn.currentPosition = "X"
     }
 
     initial_position() {
@@ -90,6 +69,15 @@ class Pawn extends Piece {
         }
     }
     
+    console_pawn() {
+        console.log(this.pawn)
+    }
+
+    move_pawn() {
+        
+    }
 
 
 }
+
+export {Pawn};
