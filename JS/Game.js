@@ -10,7 +10,7 @@ export class Game {
         this.board = document.getElementById("board");
         this.boardPieces = {};
         this.pieces = [];
-        this.onMove = "w";
+        this.onMove = ["w"];
     }
     
     start_game() {
@@ -110,7 +110,7 @@ export class Game {
             const pieceClicked = this.whichPieceIs(pieceId)
             for (let piece of this.pieces) {
                 if (piece.id === pieceClicked){
-                    piece.move(this.boardPieces)
+                    piece.move(this.boardPieces, this.onMove)
                 }
             }
         }

@@ -40,20 +40,24 @@ export class Pawn extends Piece{
         }
     }
 
-    move (boardPieces) {
-        let movements = []
-        let movementFactor = this.color === "w" ? 1 : -1;
-    
-        movements.push(this.position[0] + (parseInt(this.position[1]) + (movementFactor)).toString())
-        // Se for a primeira jogada do peão ele deve poder andar 2 casas
-        if (!this.walked) {
-            movements.push((this.position[0] + (parseInt(this.position[1]) + (movementFactor * 2))).toString())
+    move (boardPieces, onMove) {
+        this.clearMoveIndicators(boardPieces);
+        // Se for a vez dessa cor
+        if (this.color === onMove[0]) {
+            let movements = []
+            let movementFactor = this.color === "w" ? 1 : -1;
+            
+            movements.push(this.position[0] + (parseInt(this.position[1]) + (movementFactor)).toString())
+            // Se for a primeira jogada do peão ele deve poder andar 2 casas
+            if (!this.walked) {
+                movements.push((this.position[0] + (parseInt(this.position[1]) + (movementFactor * 2))).toString())
+            }
+            this.createMoveIndicators(movements, boardPieces, onMove)
         }
-        this.createMoveIndicators(movements, boardPieces)
     }
 
     
-    createMoveIndicators(movements, boardPieces) {
+    createMoveIndicators(movements, boardPieces, onMove) {
         for (let house of movements) {
             // Criando indicador de movimento
             const moveIndicator = document.createElement("img");
@@ -62,7 +66,7 @@ export class Pawn extends Piece{
             moveIndicator.id = "moveIndicator";
             moveIndicator.addEventListener("click", () => {
                 // Usando uma função de seta para manter o contexto correto
-                this.moveTo(house, boardPieces);
+                this.moveTo(house, boardPieces, onMove);
             });
 
             // checa se tem uma peça na casa do movimento
@@ -78,13 +82,15 @@ export class Pawn extends Piece{
         return boardPieces[pieceId].children.length;
     }
 
-    moveTo(destination, boardPieces) {
+    moveTo(destination, boardPieces, onMove) {
         this.clearMoveIndicators(boardPieces);
         boardPieces[destination].appendChild(this.modulo); // Troque "house" por "destination"
 
         this.walked = true;
         this.position = destination; // Troque "house" por "destination"
+        onMove[0] = onMove[0] === "w" ? "b" : "w";
     }
+
     
     clearMoveIndicators(boardPieces) {
         // Itera por todas as casas do tabuleiro
