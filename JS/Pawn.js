@@ -55,11 +55,11 @@ export class Pawn extends Piece{
             if (!this.walked) {
                 movements.push(currentLetter + (currentNumber + (movementFactor * 2)).toString())
             }
-            // Peão come nas casas das diagonais para frente
+
             // Peão come nas casas das diagonais para frente
             const leftDiagonal = housesOfLetters[housesOfLetters.indexOf(currentLetter) - 1] + (currentNumber + movementFactor).toString();
             const rightDiagonal = housesOfLetters[housesOfLetters.indexOf(currentLetter) + 1] + (currentNumber + movementFactor).toString();
-            if (this.isValidSquare(leftDiagonal)) {
+            if (super.isValidSquare(leftDiagonal)) {
                 if (super.isPieceThere(boardPieces, leftDiagonal)){
                     const pieceToBeEaten = super.whichPieceIs(boardPieces, leftDiagonal)
                     if (pieceToBeEaten[0] !== this.color){
@@ -67,7 +67,7 @@ export class Pawn extends Piece{
                     }
                 }
             }
-            if (this.isValidSquare(rightDiagonal)) {
+            if (super.isValidSquare(rightDiagonal)) {
                 if (super.isPieceThere(boardPieces, rightDiagonal)){
                     const pieceToBeEaten = super.whichPieceIs(boardPieces, rightDiagonal)
                     if (pieceToBeEaten[0] !== this.color){
@@ -81,9 +81,6 @@ export class Pawn extends Piece{
     }
 
         
-    isValidSquare(square) {
-        return /^[A-H][1-8]$/.test(square); // Verifica se a casa está dentro do tabuleiro
-    }
     
     createMoveIndicators(movements, boardPieces, onMove) {
         for (let house of movements) {
@@ -111,7 +108,7 @@ export class Pawn extends Piece{
         boardPieces[destination].appendChild(this.modulo);
 
         this.walked = true;
-        this.position = destination; // Troque "house" por "destination"
+        this.position = destination;
         onMove[0] = onMove[0] === "w" ? "b" : "w";
     }
 

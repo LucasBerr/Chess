@@ -112,4 +112,36 @@ export class Piece {
             onMove[0] = onMove[0] === "w" ? "b" : "w";
         }
     }
+
+    isValidSquare(square) {
+        return /^[A-H][1-8]$/.test(square); // Verifica se a casa está dentro do tabuleiro
+    }
+
+    
+    createMoveIndicators(movements, boardPieces, onMove) {
+        for (let house of movements) {
+            // Criando indicador de movimento
+            const moveIndicator = document.createElement("img");
+            moveIndicator.src = ".\\sprites\\moveIndicator.png";
+            moveIndicator.style.opacity = 0.7;
+            moveIndicator.id = "moveIndicator";
+            moveIndicator.addEventListener("click", () => {
+                // Usando uma função de seta para manter o contexto correto
+                this.moveTo(house, boardPieces, onMove);
+            });
+
+            // checa se tem uma peça na casa do movimento
+            if (boardPieces[house].children.length) {
+                // Checa se a peça é da mesma cor ou não
+                let pieceInHouse = this.whichPieceIs(boardPieces, house)
+                if (pieceInHouse[0] === this.color) {
+                    break;
+                } else {
+                    this.eat(boardPieces, house, onMove)
+                    break;
+                }
+            }
+            boardPieces[house].appendChild(moveIndicator);
+        }
+    }
 }

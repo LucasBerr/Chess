@@ -59,37 +59,10 @@ export class Rook extends Piece{
                 movementsLeft.push(housesOfLetters[left] + currentNumber.toString());
             }
 
-            this.createMoveIndicators(movementsUp, boardPieces, onMove)
-            this.createMoveIndicators(movementsDown, boardPieces, onMove)
-            this.createMoveIndicators(movementsRight, boardPieces, onMove)
-            this.createMoveIndicators(movementsLeft, boardPieces, onMove)
-        }
-    }
-
-    createMoveIndicators(movements, boardPieces, onMove) {
-        for (let house of movements) {
-            // Criando indicador de movimento
-            const moveIndicator = document.createElement("img");
-            moveIndicator.src = ".\\sprites\\moveIndicator.png";
-            moveIndicator.style.opacity = 0.7;
-            moveIndicator.id = "moveIndicator";
-            moveIndicator.addEventListener("click", () => {
-                // Usando uma função de seta para manter o contexto correto
-                super.moveTo(house, boardPieces, onMove);
-            });
-
-            // checa se tem uma peça na casa do movimento
-            if (boardPieces[house].children.length) {
-                // Checa se a peça é da mesma cor ou não
-                let pieceInHouse = super.whichPieceIs(boardPieces, house)
-                if (pieceInHouse[0] === this.color) {
-                    break;
-                } else {
-                    super.eat(boardPieces, house, onMove)
-                    break;
-                }
-            }
-            boardPieces[house].appendChild(moveIndicator);
+            super.createMoveIndicators(movementsUp, boardPieces, onMove)
+            super.createMoveIndicators(movementsDown, boardPieces, onMove)
+            super.createMoveIndicators(movementsRight, boardPieces, onMove)
+            super.createMoveIndicators(movementsLeft, boardPieces, onMove)
         }
     }
 }
