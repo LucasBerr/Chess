@@ -18,7 +18,6 @@ export class Queen extends Piece {
         if (this.color === onMove[0]) {
             const currentLetter = this.position[0];
             const currentNumber = parseInt(this.position[1]);
-            const movements = [];
 
             // Defina as direções de movimento (horizontal, vertical e diagonal)
             const directions = [
