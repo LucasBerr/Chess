@@ -20,6 +20,7 @@ html, body {
 
 #board {
     background-color: coral;
+    grid-template-columns: 1fr; /* Cria uma única coluna no grid */
     display: flex;
     flex-wrap: wrap;
     flex-direction: column;
@@ -54,5 +55,9 @@ html, body {
 }
 
 #moveIndicator {
+    opacity: 0.7;
+}
+
+#eatIndicator {
     opacity: 0.7;
 }
