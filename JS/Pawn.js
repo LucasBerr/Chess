@@ -40,20 +40,49 @@ export class Pawn extends Piece{
         }
     }
 
-    move (boardPieces) {
-        let movements = []
-        let movementFactor = this.color === "w" ? 1 : -1;
-    
-        movements.push(this.position[0] + (parseInt(this.position[1]) + (movementFactor)).toString())
-        // Se for a primeira jogada do peão ele deve poder andar 2 casas
-        if (!this.walked) {
-            movements.push((this.position[0] + (parseInt(this.position[1]) + (movementFactor * 2))).toString())
+    move (boardPieces, onMove) {
+        super.clearIndicators(boardPieces);
+        // Se for a vez dessa cor
+        if (this.color === onMove[0]) {
+            let housesOfLetters = ["A", "B", "C", "D", "E", "F", "G", "H"];
+            let movements = []
+            let movementFactor = this.color === "w" ? 1 : -1;
+            let currentLetter = this.position[0];
+            let currentNumber = parseInt(this.position[1]);
+
+            movements.push(currentLetter + (currentNumber + (movementFactor)).toString())
+            // Se for a primeira jogada do peão ele deve poder andar 2 casas
+            if (!this.walked) {
+                movements.push(currentLetter + (currentNumber + (movementFactor * 2)).toString())
+            }
+
+            // Peão come nas casas das diagonais para frente
+            const leftDiagonal = housesOfLetters[housesOfLetters.indexOf(currentLetter) - 1] + (currentNumber + movementFactor).toString();
+            const rightDiagonal = housesOfLetters[housesOfLetters.indexOf(currentLetter) + 1] + (currentNumber + movementFactor).toString();
+            if (super.isValidSquare(leftDiagonal)) {
+                if (super.isPieceThere(boardPieces, leftDiagonal)){
+                    const pieceToBeEaten = super.whichPieceIs(boardPieces, leftDiagonal)
+                    if (pieceToBeEaten[0] !== this.color){
+                        super.eat(boardPieces, leftDiagonal, onMove)
+                    }
+                }
+            }
+            if (super.isValidSquare(rightDiagonal)) {
+                if (super.isPieceThere(boardPieces, rightDiagonal)){
+                    const pieceToBeEaten = super.whichPieceIs(boardPieces, rightDiagonal)
+                    if (pieceToBeEaten[0] !== this.color){
+                        super.eat(boardPieces, rightDiagonal, onMove)
+                    }
+                }
+            }
+
+            this.createMoveIndicators(movements, boardPieces, onMove)
         }
-        this.createMoveIndicators(movements, boardPieces)
     }
 
+        
     
-    createMoveIndicators(movements, boardPieces) {
+    createMoveIndicators(movements, boardPieces, onMove) {
         for (let house of movements) {
             // Criando indicador de movimento
             const moveIndicator = document.createElement("img");
@@ -62,7 +91,7 @@ export class Pawn extends Piece{
             moveIndicator.id = "moveIndicator";
             moveIndicator.addEventListener("click", () => {
                 // Usando uma função de seta para manter o contexto correto
-                this.moveTo(house, boardPieces);
+                this.moveTo(house, boardPieces, onMove);
             });
 
             // checa se tem uma peça na casa do movimento
@@ -74,30 +103,13 @@ export class Pawn extends Piece{
         }
     }
 
-    isPieceThere(pieceId) {
-        return boardPieces[pieceId].children.length;
-    }
-
-    moveTo(destination, boardPieces) {
-        this.clearMoveIndicators(boardPieces);
-        boardPieces[destination].appendChild(this.modulo); // Troque "house" por "destination"
+    moveTo(destination, boardPieces, onMove) {
+        super.clearIndicators(boardPieces);
+        boardPieces[destination].appendChild(this.modulo);
 
         this.walked = true;
-        this.position = destination; // Troque "house" por "destination"
-    }
-    
-    clearMoveIndicators(boardPieces) {
-        // Itera por todas as casas do tabuleiro
-        for (const house in boardPieces) {
-            const currentHouse = boardPieces[house];
-    
-            // Verifica se há um indicador de movimento na casa
-            const moveIndicator = currentHouse.querySelector("#moveIndicator");
-            if (moveIndicator) {
-                // Remove o indicador de movimento da casa
-                currentHouse.removeChild(moveIndicator);
-            }
-        }
+        this.position = destination;
+        onMove[0] = onMove[0] === "w" ? "b" : "w";
     }
 
 
