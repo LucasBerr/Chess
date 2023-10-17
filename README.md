@@ -2,7 +2,7 @@
 
 Bem-vindo ao meu projeto de Xadrez em JavaScript! Este é um jogo de xadrez básico, implementado em JavaScript e HTML. Ele permite que você jogue xadrez contra outra pessoa em um navegador da web localmente.
 
-![Screenshot do Xadrez](screenshot.png)
+![Screenshot do Xadrez](gameScreenshots/gameScreenshot.jpeg)
 
 ## Funcionalidades
 
@@ -30,6 +30,7 @@ Sinta-se à vontade para personalizar e estender este projeto. Alguns recursos a
 ## Créditos
 
 Este projeto foi criado por Lucas Tabelli Berr.
+
 Inspiração e recursos:
 
 - [chess.com](https://www.chess.com/)
