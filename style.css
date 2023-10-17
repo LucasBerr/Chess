@@ -3,6 +3,8 @@ html, body {
 }
 
 #screen {
+    transform: scale(0.67);
+    
     background-color: gray;
     width: 1200px;
     height: 1200px;
