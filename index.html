@@ -1,80 +1,81 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Chess</title>
-    <link rel="stylesheet" href="style.css">
-</head>
-<body>
+    <link rel="stylesheet" href="style.css" />
+    <link rel="shortcut icon" type="image/png" href="sprites/Favicon.png" />
+  </head>
+  <body>
     <div id="screen">
-        <div id="board">
-            <div class="square-white" id="A8"></div>
-            <div class="square-green" id="A7"></div>
-            <div class="square-white" id="A6"></div>
-            <div class="square-green" id="A5"></div>
-            <div class="square-white" id="A4"></div>
-            <div class="square-green" id="A3"></div>
-            <div class="square-white" id="A2"></div>
-            <div class="square-green" id="A1"></div>
-            <div class="square-green" id="B8"></div>
-            <div class="square-white" id="B7"></div>
-            <div class="square-green" id="B6"></div>
-            <div class="square-white" id="B5"></div>
-            <div class="square-green" id="B4"></div>
-            <div class="square-white" id="B3"></div>
-            <div class="square-green" id="B2"></div>
-            <div class="square-white" id="B1"></div>
-            <div class="square-white" id="C8"></div>
-            <div class="square-green" id="C7"></div>
-            <div class="square-white" id="C6"></div>
-            <div class="square-green" id="C5"></div>
-            <div class="square-white" id="C4"></div>
-            <div class="square-green" id="C3"></div>
-            <div class="square-white" id="C2"></div>
-            <div class="square-green" id="C1"></div>
-            <div class="square-green" id="D8"></div>
-            <div class="square-white" id="D7"></div>
-            <div class="square-green" id="D6"></div>
-            <div class="square-white" id="D5"></div>
-            <div class="square-green" id="D4"></div>
-            <div class="square-white" id="D3"></div>
-            <div class="square-green" id="D2"></div>
-            <div class="square-white" id="D1"></div>
-            <div class="square-white" id="E8"></div>
-            <div class="square-green" id="E7"></div>
-            <div class="square-white" id="E6"></div>
-            <div class="square-green" id="E5"></div>
-            <div class="square-white" id="E4"></div>
-            <div class="square-green" id="E3"></div>
-            <div class="square-white" id="E2"></div>
-            <div class="square-green" id="E1"></div>
-            <div class="square-green" id="F8"></div>
-            <div class="square-white" id="F7"></div>
-            <div class="square-green" id="F6"></div>
-            <div class="square-white" id="F5"></div>
-            <div class="square-green" id="F4"></div>
-            <div class="square-white" id="F3"></div>
-            <div class="square-green" id="F2"></div>
-            <div class="square-white" id="F1"></div>
-            <div class="square-white" id="G8"></div>
-            <div class="square-green" id="G7"></div>
-            <div class="square-white" id="G6"></div>
-            <div class="square-green" id="G5"></div>
-            <div class="square-white" id="G4"></div>
-            <div class="square-green" id="G3"></div>
-            <div class="square-white" id="G2"></div>
-            <div class="square-green" id="G1"></div>
-            <div class="square-green" id="H8"></div>
-            <div class="square-white" id="H7"></div>
-            <div class="square-green" id="H6"></div>
-            <div class="square-white" id="H5"></div>
-            <div class="square-green" id="H4"></div>
-            <div class="square-white" id="H3"></div>
-            <div class="square-green" id="H2"></div>
-            <div class="square-white" id="H1"></div>
-        </div>
+      <div id="board">
+        <div class="square-white" id="A8"></div>
+        <div class="square-green" id="A7"></div>
+        <div class="square-white" id="A6"></div>
+        <div class="square-green" id="A5"></div>
+        <div class="square-white" id="A4"></div>
+        <div class="square-green" id="A3"></div>
+        <div class="square-white" id="A2"></div>
+        <div class="square-green" id="A1"></div>
+        <div class="square-green" id="B8"></div>
+        <div class="square-white" id="B7"></div>
+        <div class="square-green" id="B6"></div>
+        <div class="square-white" id="B5"></div>
+        <div class="square-green" id="B4"></div>
+        <div class="square-white" id="B3"></div>
+        <div class="square-green" id="B2"></div>
+        <div class="square-white" id="B1"></div>
+        <div class="square-white" id="C8"></div>
+        <div class="square-green" id="C7"></div>
+        <div class="square-white" id="C6"></div>
+        <div class="square-green" id="C5"></div>
+        <div class="square-white" id="C4"></div>
+        <div class="square-green" id="C3"></div>
+        <div class="square-white" id="C2"></div>
+        <div class="square-green" id="C1"></div>
+        <div class="square-green" id="D8"></div>
+        <div class="square-white" id="D7"></div>
+        <div class="square-green" id="D6"></div>
+        <div class="square-white" id="D5"></div>
+        <div class="square-green" id="D4"></div>
+        <div class="square-white" id="D3"></div>
+        <div class="square-green" id="D2"></div>
+        <div class="square-white" id="D1"></div>
+        <div class="square-white" id="E8"></div>
+        <div class="square-green" id="E7"></div>
+        <div class="square-white" id="E6"></div>
+        <div class="square-green" id="E5"></div>
+        <div class="square-white" id="E4"></div>
+        <div class="square-green" id="E3"></div>
+        <div class="square-white" id="E2"></div>
+        <div class="square-green" id="E1"></div>
+        <div class="square-green" id="F8"></div>
+        <div class="square-white" id="F7"></div>
+        <div class="square-green" id="F6"></div>
+        <div class="square-white" id="F5"></div>
+        <div class="square-green" id="F4"></div>
+        <div class="square-white" id="F3"></div>
+        <div class="square-green" id="F2"></div>
+        <div class="square-white" id="F1"></div>
+        <div class="square-white" id="G8"></div>
+        <div class="square-green" id="G7"></div>
+        <div class="square-white" id="G6"></div>
+        <div class="square-green" id="G5"></div>
+        <div class="square-white" id="G4"></div>
+        <div class="square-green" id="G3"></div>
+        <div class="square-white" id="G2"></div>
+        <div class="square-green" id="G1"></div>
+        <div class="square-green" id="H8"></div>
+        <div class="square-white" id="H7"></div>
+        <div class="square-green" id="H6"></div>
+        <div class="square-white" id="H5"></div>
+        <div class="square-green" id="H4"></div>
+        <div class="square-white" id="H3"></div>
+        <div class="square-green" id="H2"></div>
+        <div class="square-white" id="H1"></div>
+      </div>
     </div>
     <script src="./script.js" type="module"></script>
-</body>
+  </body>
 </html>
