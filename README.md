@@ -28,6 +28,7 @@ Sinta-se à vontade para personalizar e estender este projeto. Alguns recursos a
 - Implementar lógica de xeque e xeque-mate.
 - Adicionar um contador de movimentos e verificação de empate.
 - Melhorar a interface do usuário com estilos e animações atraentes.
+- Implementar troca de peça ao peão chegar na última casa inimiga
 
 ## Créditos
 
