@@ -1,0 +1,31 @@
+name: Chess Tests # Nome do workflow que aparece na aba Actions do GitHub
+
+on: # Define quando o workflow será executado
+  push: # Executa quando houver um push no repositório
+    branches: [main] # Só executa o push se ele for feito na branch main
+
+  pull_request: # Executa quando houver um Pull Request
+    branches: [main] # Só executa se o Pull Request tiver como destino a branch main
+
+permissions: # Define as permissões que o workflow terá no repositório
+  contents: read # Permite que o workflow apenas leia o conteúdo do repositório
+
+jobs: # Lista os trabalhos que o workflow vai executar
+  test: # Nome interno do job
+    name: Run chess movement tests # Nome que aparece no GitHub Actions para esse job
+    runs-on: ubuntu-latest # Define que o job vai rodar em uma máquina Linux Ubuntu
+
+    steps: # Lista de passos que serão executados dentro do job
+      - name: Checkout repository # Nome do passo: baixar o código do repositório
+        uses: actions/checkout@v4 # Usa uma action pronta para clonar/acessar o código do repo
+
+      - name: Setup Node.js # Nome do passo: configurar o Node.js
+        uses: actions/setup-node@v4 # Usa uma action pronta para instalar/configurar Node.js
+        with: # Parâmetros enviados para a action acima
+          node-version: 22 # Define que será usada a versão 22 do Node.js
+
+      - name: Install dependencies # Nome do passo: instalar dependências
+        run: npm install # Executa npm install para preparar o projeto
+
+      - name: Run tests # Nome do passo: rodar os testes
+        run: npm test # Executa o script de teste definido no package.json
