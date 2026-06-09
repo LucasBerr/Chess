@@ -1,30 +1,31 @@
-name: Chess Tests
+name: Chess Tests # Nome do workflow que aparece na aba Actions do GitHub
 
-on:
-  push:
-    branches: [main]
-  pull_request:
-    branches: [main]
+on: # Define quando o workflow será executado
+  push: # Executa quando houver um push no repositório
+    branches: [main] # Só executa o push se ele for feito na branch main
 
-permissions:
-  contents: read
+  pull_request: # Executa quando houver um Pull Request
+    branches: [main] # Só executa se o Pull Request tiver como destino a branch main
 
-jobs:
-  test:
-    name: Run chess movement tests
-    runs-on: ubuntu-latest
+permissions: # Define as permissões que o workflow terá no repositório
+  contents: read # Permite que o workflow apenas leia o conteúdo do repositório
 
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
+jobs: # Lista os trabalhos que o workflow vai executar
+  test: # Nome interno do job
+    name: Run chess movement tests # Nome que aparece no GitHub Actions para esse job
+    runs-on: ubuntu-latest # Define que o job vai rodar em uma máquina Linux Ubuntu
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: 22
+    steps: # Lista de passos que serão executados dentro do job
+      - name: Checkout repository # Nome do passo: baixar o código do repositório
+        uses: actions/checkout@v4 # Usa uma action pronta para clonar/acessar o código do repo
 
-      - name: Install dependencies
-        run: npm install
+      - name: Setup Node.js # Nome do passo: configurar o Node.js
+        uses: actions/setup-node@v4 # Usa uma action pronta para instalar/configurar Node.js
+        with: # Parâmetros enviados para a action acima
+          node-version: 22 # Define que será usada a versão 22 do Node.js
 
-      - name: Run tests
-        run: npm test
+      - name: Install dependencies # Nome do passo: instalar dependências
+        run: npm install # Executa npm install para preparar o projeto
+
+      - name: Run tests # Nome do passo: rodar os testes
+        run: npm test # Executa o script de teste definido no package.json
