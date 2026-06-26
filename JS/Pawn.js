@@ -46,11 +46,11 @@ export class Pawn extends Piece {
         currentLetter + (currentNumber + movementFactor).toString()
       );
       // Se for a primeira jogada do peão ele deve poder andar 2 casas
-      // if (!this.walked) {
-      //   movements.push(
-      //     currentLetter + (currentNumber + movementFactor * 2).toString()
-      //   );
-      // }
+      if (!this.walked) {
+        movements.push(
+          currentLetter + (currentNumber + movementFactor * 2).toString()
+        );
+      }
 
       // Peão come nas casas das diagonais para frente
       const leftDiagonal =
